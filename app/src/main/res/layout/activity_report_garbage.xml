@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/light_gray"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/report_garbage_title"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:textColor="@color/black" />
+
+        <!-- Back Button - Fixed contrast -->
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Location Title -->
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location_title_hint"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Description -->
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="@string/description_hint"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Address -->
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/address_hint"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Get Location Button -->
+        <Button
+            android:id="@+id/buttonGetLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/get_location"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Coordinates Container -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <!-- Latitude -->
+            <EditText
+                android:id="@+id/editTextLatitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/latitude_hint"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:inputType="numberDecimal"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Longitude -->
+            <EditText
+                android:id="@+id/editTextLongitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/longitude_hint"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:inputType="numberDecimal"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+        <!-- Upload Photos Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Photos (Max 3)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Upload Image Button -->
+        <Button
+            android:id="@+id/buttonUploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_image"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Image Count Text -->
+        <TextView
+            android:id="@+id/textViewImageCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_image_selected"
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:gravity="center"
+            android:background="@color/light_gray"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Images Horizontal Scroll View with accessibility -->
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="8dp"
+            android:background="@color/gray"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/images_gallery_description"
+            android:importantForAccessibility="yes">
+
+            <LinearLayout
+                android:id="@+id/imagesContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="no" />
+
+        </HorizontalScrollView>
+
+        <!-- Image Instructions -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Tap on photos to remove them\n• Maximum 3 photos allowed"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Submit Report Button -->
+        <Button
+            android:id="@+id/buttonSubmitReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_report"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>

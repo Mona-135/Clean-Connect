@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "864675841971",
+    "project_id": "crowdcleaning-14613",
+    "storage_bucket": "crowdcleaning-14613.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864675841971:android:4e4bdc41ffba66010aadc6",
+        "android_client_info": {
+          "package_name": "com.example.crowdcleaning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd9LfJpP6BxgPMDYaMwymOisbc6exFaHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
