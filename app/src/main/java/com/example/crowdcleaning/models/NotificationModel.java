@@ -7,8 +7,8 @@ public class NotificationModel {
     private String timestamp;
     private String sentBy;
 
+    // Required empty constructor for Firestore
     public NotificationModel() {
-        // Empty constructor needed for Firebase
     }
 
     public NotificationModel(String title, String message, String audience, String timestamp, String sentBy) {
@@ -19,9 +19,9 @@ public class NotificationModel {
         this.sentBy = sentBy;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public String getTitle() {
-        return title;
+        return title != null ? title : "No Title";
     }
 
     public void setTitle(String title) {
@@ -29,7 +29,7 @@ public class NotificationModel {
     }
 
     public String getMessage() {
-        return message;
+        return message != null ? message : "No Message";
     }
 
     public void setMessage(String message) {
@@ -37,7 +37,7 @@ public class NotificationModel {
     }
 
     public String getAudience() {
-        return audience;
+        return audience != null ? audience : "All Users";
     }
 
     public void setAudience(String audience) {
@@ -45,7 +45,7 @@ public class NotificationModel {
     }
 
     public String getTimestamp() {
-        return timestamp;
+        return timestamp != null ? timestamp : "Unknown time";
     }
 
     public void setTimestamp(String timestamp) {
@@ -53,10 +53,14 @@ public class NotificationModel {
     }
 
     public String getSentBy() {
-        return sentBy;
+        return sentBy != null ? sentBy : "Admin";
     }
 
     public void setSentBy(String sentBy) {
         this.sentBy = sentBy;
+    }
+
+    public String getFormattedTimestamp() {
+        return getTimestamp();
     }
 }

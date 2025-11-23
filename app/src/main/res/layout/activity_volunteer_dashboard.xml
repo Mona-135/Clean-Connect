@@ -1,212 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#f5f5f5">
+    android:layout_height="match_parent">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2196F3"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#f5f5f5">
 
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2196F3"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volunteer Dashboard"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/textViewWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome, Volunteer!"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+        <!-- Stats Overview -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="#FFFFFF"
+            android:layout_margin="8dp"
+            android:elevation="2dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textAssigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#2196F3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Assigned"
+                    android:textSize="12sp"
+                    android:textColor="#666666" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textCompleted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Completed"
+                    android:textSize="12sp"
+                    android:textColor="#666666" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textPending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF9800" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pending"
+                    android:textSize="12sp"
+                    android:textColor="#666666" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/buttonViewReports"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="View All Reports"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:layout_margin="4dp" />
+
+            <Button
+                android:id="@+id/buttonMyTasks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Tasks"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:layout_margin="4dp" />
+
+        </LinearLayout>
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:visibility="gone" />
+
+        <!-- Reports Section -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Volunteer Dashboard"
-            android:textSize="24sp"
+            android:text="Recent Reports"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:gravity="center" />
+            android:padding="16dp"
+            android:background="#FFFFFF"
+            android:layout_marginTop="8dp"
+            android:elevation="2dp" />
 
-        <TextView
-            android:id="@+id/textViewWelcome"
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewReports"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp" />
+
+        <!-- Bottom Navigation -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome, Volunteer!"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_marginTop="8dp" />
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:elevation="8dp">
 
-    </LinearLayout>
-
-    <!-- Stats Overview -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:layout_margin="8dp"
-        android:elevation="2dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/textAssigned"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/buttonHome"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#2196F3" />
+                android:layout_weight="1"
+                android:text="Home"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:layout_margin="4dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/buttonProfile"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Assigned"
-                android:textSize="12sp"
-                android:textColor="#666666" />
+                android:layout_weight="1"
+                android:text="Profile"
+                android:backgroundTint="#757575"
+                android:textColor="#FFFFFF"
+                android:layout_margin="4dp" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/textCompleted"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/buttonLogout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#4CAF50" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Completed"
-                android:textSize="12sp"
-                android:textColor="#666666" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/textPending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#FF9800" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pending"
-                android:textSize="12sp"
-                android:textColor="#666666" />
+                android:layout_weight="1"
+                android:text="Logout"
+                android:backgroundTint="#F44336"
+                android:textColor="#FFFFFF"
+                android:layout_margin="4dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- Action Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <Button
-            android:id="@+id/buttonViewReports"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="View All Reports"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="4dp" />
-
-        <Button
-            android:id="@+id/buttonMyTasks"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="My Tasks"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"
-            android:layout_margin="4dp" />
-
-    </LinearLayout>
-
-    <!-- Reports Section -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recent Reports"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:layout_marginTop="8dp"
-        android:elevation="2dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewReports"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="8dp" />
-
-    <!-- Bottom Navigation -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#FFFFFF"
-        android:elevation="8dp">
-
-        <Button
-            android:id="@+id/buttonHome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Home"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="4dp" />
-
-        <Button
-            android:id="@+id/buttonProfile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Profile"
-            android:backgroundTint="#757575"
-            android:textColor="#FFFFFF"
-            android:layout_margin="4dp" />
-
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Logout"
-            android:backgroundTint="#F44336"
-            android:textColor="#FFFFFF"
-            android:layout_margin="4dp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

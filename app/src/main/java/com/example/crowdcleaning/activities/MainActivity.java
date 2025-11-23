@@ -1,10 +1,13 @@
 package com.example.crowdcleaning.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,135 +18,183 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button buttonLogin, buttonRegister;
+    private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-
-    // Splash screen duration
-    private static final int SPLASH_DELAY = 1000; // 1 second
+    private Button buttonLogin, buttonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        // Initialize Firebase
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        // Remove StrictMode in production - it's only for debugging
+        // enableStrictMode();
+
+        setContentView(R.layout.activity_main);
+        Log.d(TAG, "Layout inflated successfully");
 
         initializeViews();
+        initializeFirebase();
         setupClickListeners();
-
-        // Check if user is already logged in after a short delay
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                checkCurrentUser();
-            }
-        }, SPLASH_DELAY);
     }
 
     private void initializeViews() {
-        buttonLogin = findViewById(R.id.buttonLogin);
-        buttonRegister = findViewById(R.id.buttonRegister);
+        try {
+            buttonLogin = findViewById(R.id.buttonLogin);
+            buttonRegister = findViewById(R.id.buttonRegister);
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing views", e);
+            Toast.makeText(this, "Error initializing app", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initializeFirebase() {
+        try {
+            mAuth = FirebaseAuth.getInstance();
+            db = FirebaseFirestore.getInstance();
+            Log.d(TAG, "Firebase initialized successfully");
+
+            // Check current user after Firebase is initialized
+            checkCurrentUser();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Firebase initialization failed: " + e.getMessage(), e);
+            // Continue with offline mode - user can still see the UI
+            setupUI();
+        }
     }
 
     private void setupClickListeners() {
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToLogin();
-            }
-        });
-
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToRegister();
-            }
-        });
+        buttonLogin.setOnClickListener(v -> navigateToLogin());
+        buttonRegister.setOnClickListener(v -> navigateToRegister());
     }
 
     private void checkCurrentUser() {
+        if (mAuth == null) {
+            Log.w(TAG, "Firebase Auth not initialized");
+            setupUI();
+            return;
+        }
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // User is signed in, check their role and redirect accordingly
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            // User is logged in and verified, redirect to appropriate dashboard
+            Log.d(TAG, "User already logged in, redirecting to dashboard");
             checkUserRoleAndRedirect(currentUser.getUid());
         } else {
-            // User is not signed in, show the main screen with login/register buttons
-            // The buttons are already visible in the layout
+            // User not logged in or email not verified, show login/register UI
+            Log.d(TAG, "User not logged in or email not verified, showing UI");
+            setupUI();
         }
     }
 
     private void checkUserRoleAndRedirect(String userId) {
-        db.collection("users").document(userId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String role = documentSnapshot.getString("role");
+        if (db == null) {
+            Log.w(TAG, "Firestore not available, defaulting to Citizen Dashboard");
+            redirectToDashboard("citizen");
+            return;
+        }
+
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        String role = task.getResult().getString("role");
+                        Log.d(TAG, "User role found: " + role);
                         redirectToDashboard(role);
                     } else {
-                        // User document doesn't exist, treat as new user
-                        navigateToLogin();
+                        Log.w(TAG, "User document not found, defaulting to Citizen Dashboard");
+                        redirectToDashboard("citizen");
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // If there's an error, redirect to login
-                    navigateToLogin();
+                    Log.e(TAG, "Error fetching user role", e);
+                    // On error, default to citizen dashboard
+                    redirectToDashboard("citizen");
                 });
+    }
+
+    private void setupUI() {
+        try {
+            // Make sure buttons are enabled and visible
+            buttonLogin.setEnabled(true);
+            buttonRegister.setEnabled(true);
+
+            // Show welcome message if needed
+            if (!isNetworkAvailable()) {
+                Toast.makeText(this, "No internet connection - some features may be limited", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up UI", e);
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void redirectToDashboard(String role) {
         Intent intent;
-        switch (role != null ? role : "citizen") {
-            case "volunteer":
-                intent = new Intent(MainActivity.this, VolunteerDashboardActivity.class);
-                break;
-            case "admin":
-                intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
-                break;
-            case "citizen":
-            default:
-                intent = new Intent(MainActivity.this, CitizenDashboardActivity.class);
-                break;
+        if ("volunteer".equals(role)) {
+            intent = new Intent(this, VolunteerDashboardActivity.class);
+            Log.d(TAG, "Redirecting to Volunteer Dashboard");
+        } else if ("admin".equals(role)) {
+            intent = new Intent(this, AdminDashboardActivity.class);
+            Log.d(TAG, "Redirecting to Admin Dashboard");
+        } else {
+            intent = new Intent(this, CitizenDashboardActivity.class);
+            Log.d(TAG, "Redirecting to Citizen Dashboard");
         }
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
 
     private void navigateToLogin() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        // Don't finish() so user can press back to return to main screen
+        Log.d(TAG, "Navigating to LoginActivity");
+        startActivity(new Intent(this, LoginActivity.class));
+        // Don't finish() here to allow back navigation
     }
 
     private void navigateToRegister() {
-        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(intent);
-        // Don't finish() so user can press back to return to main screen
+        Log.d(TAG, "Navigating to RegisterActivity");
+        startActivity(new Intent(this, RegisterActivity.class));
+        // Don't finish() here to allow back navigation
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        // Additional check when activity comes to foreground
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // If user signs in from another activity, redirect immediately
-            checkUserRoleAndRedirect(currentUser.getUid());
+    protected void onResume() {
+        super.onResume();
+        // Check if user logged out from other activities
+        if (mAuth != null) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser == null) {
+                // User logged out, ensure UI is visible
+                setupUI();
+            }
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        // Exit app when back is pressed from main activity
-        if (mAuth.getCurrentUser() != null) {
-            // If user is logged in, go to dashboard instead of exiting
-            checkUserRoleAndRedirect(mAuth.getCurrentUser().getUid());
-        } else {
-            super.onBackPressed();
+    // Remove StrictMode in production - it can cause performance issues
+    /*
+    private void enableStrictMode() {
+        if (BuildConfig.DEBUG) {
+            android.os.StrictMode.setThreadPolicy(new android.os.StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build());
+            android.os.StrictMode.setVmPolicy(new android.os.StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build());
         }
     }
+    */
 }

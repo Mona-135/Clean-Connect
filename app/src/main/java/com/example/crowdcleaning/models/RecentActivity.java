@@ -6,7 +6,9 @@ public class RecentActivity {
     private String status;
     private String timestamp;
 
-    public RecentActivity() {}
+    public RecentActivity() {
+        // Default constructor required for Firestore
+    }
 
     public RecentActivity(String userName, String description, String status, String timestamp) {
         this.userName = userName;
@@ -15,7 +17,7 @@ public class RecentActivity {
         this.timestamp = timestamp;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public String getUserName() { return userName; }
     public void setUserName(String userName) { this.userName = userName; }
 

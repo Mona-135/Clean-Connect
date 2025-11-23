@@ -4,13 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.crowdcleaning.R;
 import com.example.crowdcleaning.models.RecentActivity;
-import com.example.crowdcleaning.R; // Add this import
-
 import java.util.List;
+
+// Remove the @NonNull import and use these alternatives:
+import org.jetbrains.annotations.NotNull;
 
 public class RecentActivityAdapter extends RecyclerView.Adapter<RecentActivityAdapter.ViewHolder> {
 
@@ -20,70 +20,37 @@ public class RecentActivityAdapter extends RecyclerView.Adapter<RecentActivityAd
         this.activityList = activityList;
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_recent_activity, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (activityList == null || activityList.isEmpty()) return;
-
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
         RecentActivity activity = activityList.get(position);
-
-        // Set data to views
-        holder.textUserName.setText(activity.getUserName() != null ? activity.getUserName() : "Unknown User");
-        holder.textDescription.setText(activity.getDescription() != null ? activity.getDescription() : "No description");
-        holder.textStatus.setText(activity.getStatus() != null ? activity.getStatus() : "Reported");
-        holder.textTimestamp.setText(activity.getTimestamp() != null ? activity.getTimestamp() : "Just now");
-
-        // Set status color
-        int statusColor;
-        String status = activity.getStatus();
-        if (status != null) {
-            switch (status) {
-                case "Completed":
-                case "Cleaned":
-                    statusColor = android.R.color.holo_green_dark;
-                    break;
-                case "In Progress":
-                case "Assigned":
-                    statusColor = android.R.color.holo_orange_dark;
-                    break;
-                default:
-                    statusColor = android.R.color.holo_red_dark;
-                    break;
-            }
-        } else {
-            statusColor = android.R.color.holo_red_dark;
-        }
-
-        holder.textStatus.setTextColor(holder.itemView.getContext().getResources().getColor(statusColor));
+        holder.textUserName.setText(activity.getUserName());
+        holder.textDescription.setText(activity.getDescription());
+        holder.textStatus.setText(activity.getStatus());
+        holder.textTimestamp.setText(activity.getTimestamp());
     }
 
     @Override
     public int getItemCount() {
-        return activityList == null ? 0 : activityList.size();
+        return activityList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textUserName, textDescription, textStatus, textTimestamp;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NotNull View itemView) {
             super(itemView);
             textUserName = itemView.findViewById(R.id.textUserName);
             textDescription = itemView.findViewById(R.id.textDescription);
             textStatus = itemView.findViewById(R.id.textStatus);
             textTimestamp = itemView.findViewById(R.id.textTimestamp);
         }
-    }
-
-    // Method to update data
-    public void updateData(List<RecentActivity> newList) {
-        this.activityList = newList;
-        notifyDataSetChanged();
     }
 }

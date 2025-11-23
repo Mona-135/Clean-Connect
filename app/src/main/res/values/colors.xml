@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary brand colors -->
     <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>  <!-- Darker blue for better contrast -->
-    <color name="colorAccent">#FF9800</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Status colors -->
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF9800</color>
+    <color name="red">#F44336</color>
+
+    <!-- Basic colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="gray">#9E9E9E</color>  <!-- Lighter gray for better contrast -->
+
+    <!-- Gray scale - Complete set -->
     <color name="light_gray">#F5F5F5</color>
+    <color name="dark_gray">#616161</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="gray_light">#F5F5F5</color>
+    <color name="gray_dark">#616161</color>
+    <color name="gray_medium">#757575</color>
+
+    <!-- Additional status colors -->
+    <color name="status_completed">#4CAF50</color>
+    <color name="status_in_progress">#FF9800</color>
+    <color name="status_pending">#F44336</color>
+    <color name="status_reported">#2196F3</color>
 </resources>

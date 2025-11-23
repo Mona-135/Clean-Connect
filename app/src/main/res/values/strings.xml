@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Clean Connect </string>
+    <string name="app_name">Clean Connect</string>
+    <string name="google_maps_key">AIzaSyBuxTGhIRjy6BxEJq3hDR7Nu_CxjoLwxvM</string>
 
     <!-- Main Activity -->
     <string name="welcome_to_app">Welcome to Clean Connect</string>
@@ -76,36 +77,17 @@
 
     <!-- Report Garbage Activity -->
     <string name="report_garbage_title">Report Garbage Spot</string>
-    <string name="back">← Back</string>
-    <string name="location_title_hint">Enter location title</string>
-    <string name="description_hint">Enter description</string>
-    <string name="address_hint">Enter address</string>
+    <string name="back">Back</string>
+    <string name="location_title_hint">Location Title (e.g., Park near Main Street)</string>
+    <string name="description_hint">Describe the garbage situation...</string>
+    <string name="address_hint">Full Address</string>
     <string name="get_location">Get Current Location</string>
     <string name="latitude_hint">Latitude</string>
     <string name="longitude_hint">Longitude</string>
-    <string name="upload_image">Upload Image</string>
-    <string name="submit_report">SUBMIT REPORT</string>
-    <string name="no_image_selected">No image selected</string>
-    <string name="getting_location">Getting your location…</string>
-    <string name="location_updated">Location updated successfully!</string>
-    <string name="unable_to_get_location">Unable to get location. Please try again.</string>
-    <string name="location_error">Location error</string>
-    <string name="location_permission_required">Location permission is required to get your current location</string>
-    <string name="storage_permission_required">Storage permission is required to select images</string>
-    <string name="select_picture">Select Picture</string>
-    <string name="image_selected">Image selected successfully</string>
-    <string name="error_loading_image">Error loading image</string>
-    <string name="submitting_report">Submitting your report…</string>
-    <string name="report_submitted">Report submitted successfully!</string>
-    <string name="location_title_required">Please enter a location title</string>
-    <string name="description_required">Please enter a description</string>
-    <string name="address_required">Please enter an address</string>
-    <string name="coordinates_required">Please get your location coordinates</string>
-    <string name="image_required">Please upload an image of the garbage spot</string>
-    <string name="invalid_latitude">Invalid latitude (-90 to 90)</string>
-    <string name="invalid_longitude">Invalid longitude (-180 to 180)</string>
-    <string name="invalid_coordinate_format">Invalid coordinate format</string>
-    <string name="images_gallery_description">Gallery of selected garbage spot photos. Swipe horizontally to view all images. Tap any image to remove it.</string>
+    <string name="upload_image">Select Photos</string>
+    <string name="no_image_selected">No images selected</string>
+    <string name="images_gallery_description">Selected images gallery</string>
+    <string name="submit_report">Submit Report</string>
 
     <!-- Profile Activity -->
     <string name="user_profile">User Profile</string>

@@ -4,15 +4,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.crowdcleaning.R;
 import com.example.crowdcleaning.models.NotificationModel;
-
 import java.util.List;
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
     private List<NotificationModel> notificationList;
 
@@ -20,64 +17,49 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.notificationList = notificationList;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_notification, parent, false);
-        return new ViewHolder(view);
+        return new NotificationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(NotificationViewHolder holder, int position) {
         NotificationModel notification = notificationList.get(position);
 
-        holder.textTitle.setText(notification.getTitle());
-        holder.textMessage.setText(notification.getMessage());
-        holder.textAudience.setText("To: " + notification.getAudience());
-        holder.textTimestamp.setText(notification.getTimestamp());
-
-        // Only set sentBy if the TextView exists
-        if (holder.textSentBy != null) {
+        if (notification != null) {
+            holder.textTitle.setText(notification.getTitle());
+            holder.textMessage.setText(notification.getMessage());
+            holder.textAudience.setText("To: " + notification.getAudience());
+            holder.textTimestamp.setText(notification.getFormattedTimestamp());
             holder.textSentBy.setText("By: " + notification.getSentBy());
-        }
-
-        // Set audience color
-        switch (notification.getAudience()) {
-            case "Volunteers Only":
-                holder.textAudience.setTextColor(0xFFFF9800); // Orange
-                break;
-            case "Citizens Only":
-                holder.textAudience.setTextColor(0xFF2196F3); // Blue
-                break;
-            default:
-                holder.textAudience.setTextColor(0xFF4CAF50); // Green for All Users
-                break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return notificationList == null ? 0 : notificationList.size();
+        return notificationList != null ? notificationList.size() : 0;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public void updateList(List<NotificationModel> newList) {
+        if (newList != null) {
+            notificationList.clear();
+            notificationList.addAll(newList);
+            notifyDataSetChanged();
+        }
+    }
+
+    static class NotificationViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle, textMessage, textAudience, textTimestamp, textSentBy;
 
-        public ViewHolder(@NonNull View itemView) {
+        public NotificationViewHolder(View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.textTitle);
             textMessage = itemView.findViewById(R.id.textMessage);
             textAudience = itemView.findViewById(R.id.textAudience);
             textTimestamp = itemView.findViewById(R.id.textTimestamp);
-
-            // Safe initialization - will be null if view doesn't exist
             textSentBy = itemView.findViewById(R.id.textSentBy);
         }
-    }
-
-    public void updateData(List<NotificationModel> newList) {
-        this.notificationList = newList;
-        notifyDataSetChanged();
     }
 }
